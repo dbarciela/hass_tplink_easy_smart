@@ -14,6 +14,7 @@ from homeassistant.const import (
     CONF_VERIFY_SSL,
 )
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import format_mac
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -172,7 +173,7 @@ class TpLinkDataUpdateCoordinator(DataUpdateCoordinator):
 
         result = DeviceInfo(
             configuration_url=self._api.device_url,
-            identifiers={(DOMAIN, switch_info.mac)},
+            identifiers={(DOMAIN, format_mac(switch_info.mac))},
             manufacturer=ATTR_MANUFACTURER,
             name=switch_info.name,
             hw_version=switch_info.hardware,
@@ -216,3 +217,4 @@ class TpLinkDataUpdateCoordinator(DataUpdateCoordinator):
         )
         await self._update_port_poe_states()
         self.async_update_listeners()
+
